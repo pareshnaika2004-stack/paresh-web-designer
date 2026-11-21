@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Paresh — Web Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+ --bg1:#dfe9ff;--bg2:#f3e4ff;--ink:#14172b;--mute:#4b5072;
+ --glass:rgba(255,255,255,.42);--glass2:rgba(255,255,255,.62);--edge:rgba(255,255,255,.75);--edge2:rgba(255,255,255,.2);
+ --shadow:rgba(40,50,110,.22);--o1:#7aa8ff;--o2:#ff9ad5;--o3:#7ee8d0;--accent:#3d6bff;--accentInk:#fff;
+ --sans:"Inter",system-ui,-apple-system,"SF Pro Display","Segoe UI",sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#0a0d1f;--bg2:#1a1038;--ink:#f2f4ff;--mute:#a9b0d8;--glass:rgba(255,255,255,.08);--glass2:rgba(255,255,255,.14);--edge:rgba(255,255,255,.28);--edge2:rgba(255,255,255,.05);--shadow:rgba(0,0,0,.55);--o1:#3b5bdb;--o2:#b0399a;--o3:#14917a;--accent:#8aa6ff;--accentInk:#0a0d1f;color-scheme:dark}}
+:root[data-theme="dark"]{--bg1:#0a0d1f;--bg2:#1a1038;--ink:#f2f4ff;--mute:#a9b0d8;--glass:rgba(255,255,255,.08);--glass2:rgba(255,255,255,.14);--edge:rgba(255,255,255,.28);--edge2:rgba(255,255,255,.05);--shadow:rgba(0,0,0,.55);--o1:#3b5bdb;--o2:#b0399a;--o3:#14917a;--accent:#8aa6ff;--accentInk:#0a0d1f;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;min-height:100vh;color:var(--ink);font:400 17px/1.6 var(--sans);background:linear-gradient(160deg,var(--bg1),var(--bg2));background-attachment:fixed;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.scene{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.75;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.o1{width:46vmax;height:46vmax;background:var(--o1);left:-12vmax;top:-10vmax}
+.o2{width:38vmax;height:38vmax;background:var(--o2);right:-10vmax;top:22vh}
+.o3{width:34vmax;height:34vmax;background:var(--o3);left:20vw;bottom:-16vmax}
+.wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 20px}
+.glass{position:relative;background:var(--glass);-webkit-backdrop-filter:blur(28px) saturate(1.6);backdrop-filter:blur(28px) saturate(1.6);
+ border:1px solid var(--edge);border-radius:32px;
+ box-shadow:0 24px 60px -18px var(--shadow),0 2px 0 var(--edge) inset,0 -1px 0 var(--edge2) inset}
+.glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .25s;
+ background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.38),transparent 55%)}
+.glass:hover::after{opacity:1}
+[data-tilt]{transform-style:preserve-3d;transform:perspective(1000px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+[data-tilt].moving{transition:transform .06s linear}
+.z1{transform:translateZ(30px)}.z2{transform:translateZ(60px)}
+header{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);z-index:20;display:flex;justify-content:center;padding-top:12px}
+.nav{display:flex;align-items:center;gap:6px;padding:7px;border-radius:999px}
+.nav a{padding:9px 18px;border-radius:999px;font-weight:500;font-size:15px;color:var(--mute);transition:background .2s,color .2s}
+.nav a:hover{background:var(--glass2);color:var(--ink)}
+.nav .logo{color:var(--ink);font-weight:700;background:var(--glass2)}
+.hero{margin-top:32px;padding:clamp(28px,6vw,64px);display:grid;grid-template-columns:1.25fr 1fr;gap:32px;align-items:center;border-radius:44px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;font-size:14px;font-weight:500;background:var(--glass2);border:1px solid var(--edge);margin-bottom:20px}
+.dot{width:8px;height:8px;border-radius:50%;background:#2fd47a;box-shadow:0 0 0 4px rgba(47,212,122,.25)}
+h1{font-size:clamp(2.4rem,7vw,4.6rem);line-height:1.04;letter-spacing:-.03em;font-weight:700;margin:0 0 18px}
+.hero p{color:var(--mute);font-size:1.12rem;max-width:42ch;margin:0 0 28px}
+.btn{display:inline-block;padding:14px 28px;border-radius:999px;font-weight:600;background:var(--accent);color:var(--accentInk);box-shadow:0 12px 28px -8px var(--accent);transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-3px) scale(1.03)}
+.avatarbox{display:grid;place-items:center}
+.ring{width:min(100%,320px);aspect-ratio:1;border-radius:50%;padding:12px;background:var(--glass2);border:1px solid var(--edge);box-shadow:0 30px 60px -20px var(--shadow)}
+.ring img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.float{position:absolute;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;white-space:nowrap}
+.f1{right:-6px;top:14%}.f2{left:-4px;bottom:12%}
+.avatarbox{position:relative}
+section{padding:64px 0 0}
+h2{font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:-.02em;margin:0 0 24px 6px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.card{display:block;padding:28px;min-height:190px}
+.card .m{display:inline-block;font-size:13px;font-weight:600;padding:4px 12px;border-radius:999px;background:var(--glass2);border:1px solid var(--edge);color:var(--mute);margin-bottom:14px}
+.card .t{display:block;font-size:1.6rem;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+.card .d{margin:0;color:var(--mute)}
+.card .go{position:absolute;right:22px;top:22px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--glass2);border:1px solid var(--edge);transition:transform .2s}
+.card:hover .go{transform:translateZ(40px) rotate(-45deg)}
+.about{display:grid;grid-template-columns:1.2fr 1fr;gap:24px}
+.panel{padding:34px}
+.panel h3{font-size:1.4rem;margin:0 0 12px;letter-spacing:-.01em}
+.panel p{color:var(--mute);margin:0 0 12px}
+.tags{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.tags li{padding:8px 16px;border-radius:999px;font-weight:500;font-size:15px;background:var(--glass2);border:1px solid var(--edge)}
+.contact{margin:64px 0 24px;padding:clamp(28px,6vw,60px);border-radius:44px}
+.contact h2{margin:0 0 18px}
+.big{display:block;padding:18px 26px;border-radius:24px;font-size:clamp(1.1rem,4.4vw,2.2rem);font-weight:600;letter-spacing:-.02em;word-break:break-word;background:var(--glass2);border:1px solid var(--edge);transition:transform .2s}
+.big:hover{transform:translateY(-3px)}
+.ph{display:inline-block;margin-top:20px}
+footer{position:relative;z-index:1;padding:8px 28px 44px;max-width:1040px;margin:0 auto;color:var(--mute);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:15px}
+@media (max-width:760px){.hero,.about,.grid{grid-template-columns:1fr}.avatarbox{order:-1}.ring{width:220px}.nav a{padding:9px 13px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}[data-tilt]{transform:none!important}}
+</style>
+</head>
+<body>
+<div class="scene" aria-hidden="true"><i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i></div>
+<div class="wrap">
+ <header><nav class="nav glass"><a class="logo" href="#top">Paresh</a><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></nav></header>
+ <main id="top">
+  <div class="hero glass" data-tilt>
+   <div class="z1">
+    <span class="chip"><i class="dot"></i>Available for projects</span>
+    <h1>I design soft, friendly websites.</h1>
+    <p>I’m Paresh, a web designer. I make sites that feel warm, look playful and are easy for anyone to use.</p>
+    <a class="btn" href="#contact">Start a project</a>
+   </div>
+   <div class="avatarbox z2">
+    <div class="ring"><img src="https://placehold.co/640x640/667eea/ffffff?text=Paresh" alt="Portrait of Paresh"></div>
+    <span class="float glass f1">Web designer</span><span class="float glass f2">UI &amp; branding</span>
+   </div>
+  </div>
+
+  <section id="work">
+   <h2>Selected work</h2>
+   <div class="grid">
+    <a class="card glass" data-tilt href="#contact"><span class="go z2">→</span><span class="m z1">Café website, 2025</span><span class="t z1">Oak &amp; Ember</span><p class="d z1">A menu-first site with online ordering that works with one thumb.</p></a>
+    <a class="card glass" data-tilt href="#contact"><span class="go z2">→</span><span class="m z1">Architecture portfolio, 2025</span><span class="t z1">Studio Nine</span><p class="d z1">Big photos, gentle type and a project index that loads fast.</p></a>
+    <a class="card glass" data-tilt href="#contact"><span class="go z2">→</span><span class="m z1">Landing page, 2024</span><span class="t z1">Kiran Fitness</span><p class="d z1">One page that explains plans in plain words and books trials in two taps.</p></a>
+    <a class="card glass" data-tilt href="#contact"><span class="go z2">→</span><span class="m z1">App marketing site, 2024</span><span class="t z1">Notely</span><p class="d z1">A friendly product story with a pricing page people finish reading.</p></a>
+   </div>
+  </section>
+
+  <section id="about">
+   <h2>About</h2>
+   <div class="about">
+    <div class="panel glass" data-tilt><div class="z1"><h3>Design that feels good to touch</h3>
+     <p>I believe a website should feel inviting. I use soft shapes, gentle color and clear layouts so visitors feel at ease and know exactly where to go.</p>
+     <p>I work directly with each client, from first sketch to launch, and stay around after for changes.</p></div></div>
+    <div class="panel glass" data-tilt><div class="z1"><h3>What I do</h3>
+     <ul class="tags"><li>Website design</li><li>UI design</li><li>Responsive build</li><li>Branding</li><li>Redesigns</li><li>Design audits</li></ul></div></div>
+   </div>
+  </section>
+
+  <section id="contact" class="contact glass" data-tilt>
+   <div class="z1"><h2>Let’s talk</h2>
+   <a class="big" href="mailto:pareshnaika2004@gmail.com">pareshnaika2004@gmail.com</a>
+   <a class="btn ph" href="tel:+918655343545">Call 86553 43545</a></div>
+  </section>
+ </main>
+</div>
+<footer><span>© 2026 Paresh</span><span>Based in India, working worldwide</span></footer>
+<script>
+(function(){
+ var fine=matchMedia('(pointer:fine)').matches&&!matchMedia('(prefers-reduced-motion:reduce)').matches;
+ document.querySelectorAll('.glass').forEach(function(el){
+  el.addEventListener('pointermove',function(e){var r=el.getBoundingClientRect();
+   el.style.setProperty('--mx',(e.clientX-r.left)+'px');el.style.setProperty('--my',(e.clientY-r.top)+'px');
+   if(fine&&el.hasAttribute('data-tilt')){var px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5,m=el.classList.contains('hero')?4:7;
+    el.classList.add('moving');el.style.setProperty('--ry',(px*m)+'deg');el.style.setProperty('--rx',(-py*m)+'deg');}});
+  el.addEventListener('pointerleave',function(){el.classList.remove('moving');el.style.setProperty('--rx','0deg');el.style.setProperty('--ry','0deg');});
+ });
+ if(fine){var orbs=document.querySelectorAll('.orb');
+  addEventListener('pointermove',function(e){var x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;
+   orbs.forEach(function(o,i){var d=(i+1)*28;o.style.transform='translate('+(-x*d)+'px,'+(-y*d)+'px)';});});}
+})();
+</script>
+</body>
+</html>
